@@ -11,10 +11,10 @@ import { checkAdmin } from "../middleware/checkAdmin";
 
 const userRouter: Router = Router();
 
-userRouter.get("/users", checkAdmin, getAllUsers);
+userRouter.get("/users", getAllUsers);
 userRouter.get("/users/orders", authenticateJWT, getUserOrders);
 userRouter.get("/users/:id", authenticateJWT, getUserByID);
 userRouter.put("/users/:id", authenticateJWT, updateUser);
-userRouter.delete("/users/:id", authenticateJWT, deleteUser);
+userRouter.delete("/users/:id", authenticateJWT, checkAdmin, deleteUser);
 
 export default userRouter;
