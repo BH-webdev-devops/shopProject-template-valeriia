@@ -35,7 +35,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
 
       - name: Wait for server to be ready
-        run: sleep 60
+        run: sleep 10
           
       - name: Trigger Render Deployment
         env:
