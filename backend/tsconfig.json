@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+	"target": "ES6", // Ensure ES6 or higher
+	"module": "commonjs",
+	"strict": true,
+	"esModuleInterop": true,
+	"experimentalDecorators": true, // Enable experimental decorators
+	"emitDecoratorMetadata": true, // Emit metadata for decorators
+	"skipLibCheck": true,
+	"outDir": "./dist"
+	},
+	"include": ["*.ts", "entities/*.ts", "migrations/*.ts"],
+	"exclude": ["node_modules"]
+  }
