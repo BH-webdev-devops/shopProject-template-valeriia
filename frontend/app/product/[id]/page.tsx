@@ -7,6 +7,7 @@ import ProductCard from "../../components/ProductCard";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { products }: any = useAuth();
 
   console.log(products);

@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import { useAuth } from "./context/AuthContext";
 import Products from "./components/Products";
 
 export default function Home() {
-  const { user, isAuthenticated }: any = useAuth()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { user, isAuthenticated }: any = useAuth();
 
   return (
     <>
@@ -12,8 +13,7 @@ export default function Home() {
       ) : (
         <h1 className="text-center text-xl">Hello world</h1>
       )}
-      <Products/>
+      <Products />
     </>
   );
 }
-

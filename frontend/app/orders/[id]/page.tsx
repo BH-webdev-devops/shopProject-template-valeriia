@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ const OrderDetailPage: React.FC = () => {
         setError(response?.body?.message || "Something went wrong");
       }
     } catch (err) {
-      setError("Failed to fetch orders");
+      setError(`Failed to fetch orders ${err}`);
     }
   };
 

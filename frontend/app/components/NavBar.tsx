@@ -1,16 +1,23 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
-import { useState } from 'react';
-import { Dialog, DialogPanel } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
-import { useAuth } from '../context/AuthContext';
-import Link from 'next/link';
+import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
+import { useAuth } from "../context/AuthContext";
+import Link from "next/link";
 
 const NavBar = () => {
-  const { user, loading, isAuthenticated, cart }: any = useAuth()
+  const { user, loading, isAuthenticated, cart }: any = useAuth();
   const navigation = [
-    { name: 'Contact', href: '/contact' },
-    ...(isAuthenticated && user ? [{ name: 'Manage Orders', href: '/orders' }] : []),
+    { name: "Contact", href: "/contact" },
+    ...(isAuthenticated && user
+      ? [{ name: "Manage Orders", href: "/orders" }]
+      : []),
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -32,23 +39,32 @@ const NavBar = () => {
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          <Link href="/contact" className="hidden text-sm font-semibold text-gray-900 lg:block">
+          <Link
+            href="/contact"
+            className="hidden text-sm font-semibold text-gray-900 lg:block"
+          >
             Contact
           </Link>
         </div>
-        
+
         <div className="flex flex-1 items-center justify-end gap-x-6">
-        {isAuthenticated && user && (
-          <Link href="/orders" className="hidden text-sm font-semibold text-gray-900 lg:block">
-            Manage Orders
-          </Link>
-        )}
+          {isAuthenticated && user && (
+            <Link
+              href="/orders"
+              className="hidden text-sm font-semibold text-gray-900 lg:block"
+            >
+              Manage Orders
+            </Link>
+          )}
         </div>
 
         <div className="flex flex-1 items-center justify-end gap-x-6">
           {!isAuthenticated && !loading && (
             <>
-              <Link href="/login" className="hidden text-sm font-semibold text-gray-900 lg:block">
+              <Link
+                href="/login"
+                className="hidden text-sm font-semibold text-gray-900 lg:block"
+              >
                 Log in
               </Link>
               <Link
@@ -81,7 +97,11 @@ const NavBar = () => {
           </button>
         </div>
       </nav>
-      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+      <Dialog
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+        className="lg:hidden"
+      >
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center gap-x-6">
