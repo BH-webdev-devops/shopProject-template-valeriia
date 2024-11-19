@@ -2,16 +2,10 @@
 "use client";
 
 import { useAuth } from "../context/AuthContext";
-import { Item } from "../types/interfaces";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-interface CartProps {
-  cart: Item[] | null;
-  setCart: React.Dispatch<React.SetStateAction<Item[] | null>>;
-}
-
-const Cart: React.FC<CartProps> = () => {
+const Cart: React.FC = () => {
   const {
     user,
     isAuthenticated,
