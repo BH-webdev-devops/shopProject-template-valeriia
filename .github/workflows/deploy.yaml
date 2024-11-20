@@ -25,7 +25,7 @@ jobs:
       - name: Start the server (if applicable)
         run: npm start &
         working-directory: ./backend
-        env:
+        secrets:
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
@@ -37,15 +37,45 @@ jobs:
       - name: Wait for server to be ready
         run: sleep 10
           
-      - name: Trigger Render Deployment
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-        run: |
-          # Define the Render API endpoint and service ID
-          SERVICE_ID=srv-cstl0tlumphs73fqcreg # Replace this with your actual Service ID
-          RENDER_API_URL="https://api.render.com/v1/services/srv-cstl0tlumphs73fqcreg/deploys"
-          # Trigger the deployment using Render's API
-          curl -X POST \
-            -H "Accept: application/json" \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            $RENDER_API_URL
+      # - name: Trigger Render Deployment
+      #   secrets:
+      #     RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      #   run: |
+      #     # Define the Render API endpoint and service ID
+      #     SERVICE_ID=srv-cstl0tlumphs73fqcreg # Replace this with your actual Service ID
+      #     RENDER_API_URL="https://api.render.com/v1/services/srv-cstl0tlumphs73fqcreg/deploys"
+      #     # Trigger the deployment using Render's API
+      #     curl -X POST \
+      #       -H "Accept: application/json" \
+      #       -H "Authorization: Bearer $RENDER_API_KEY" \
+      #       $RENDER_API_URL
+      - name: Google auth
+        id: auth
+        uses: google-github-actions/auth@v1
+        with: 
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: 'Set up Cloud SDK'
+            uses: 'google-github-actions/setup-gcloud@v1'
+            with:
+              project_id: '${{ secrets.PROJECT_ID }}'
+
+
+      - name: 'Docker auth'
+        run: |-
+          gcloud auth configure-docker ${{ secrets.GAR_LOCATION }}-docker.pkg.dev
+
+      - name: 'Build and push container'
+        run: |-
+          docker build -t "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}" ./app
+          docker push "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}"
+
+      - name: 'Create Cloud Deploy release'
+        uses: 'google-github-actions/create-cloud-deploy-release@v0'
+        with:
+          delivery_pipeline: '${{ secrets.APP }}'
+          name: '${{ secrets.RELEASE_NAME }}'
+          region: '${{ secrets.REGION }}'
+          skaffold_file: 'config/skaffold.yaml'
+          images: 'app=${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}'
