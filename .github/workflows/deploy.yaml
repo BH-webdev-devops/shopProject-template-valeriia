@@ -17,11 +17,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16' # Use your preferred Node version
-
       - name: Install dependencies
         run: npm install
         working-directory: ./backend
@@ -77,6 +72,7 @@ jobs:
           tags: shop-project-valeriia:latest
           platforms: linux/amd6
           context: backend/.
+          push: false
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@main
