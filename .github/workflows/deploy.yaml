@@ -61,7 +61,6 @@ jobs:
             with:
               project_id: '${{ secrets.PROJECT_ID }}'
 
-
       - name: 'Docker auth'
         run: |-
           gcloud auth configure-docker ${{ secrets.GAR_LOCATION }}-docker.pkg.dev
