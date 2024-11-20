@@ -56,25 +56,25 @@ jobs:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
           service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
 
-      - name: 'Set up Cloud SDK'
-            uses: 'google-github-actions/setup-gcloud@v1'
+      - name: Set up Cloud SDK
+            uses: google-github-actions/setup-gcloud@v1
             with:
-              project_id: '${{ secrets.PROJECT_ID }}'
+              project_id: ${{ secrets.PROJECT_ID }}
 
-      - name: 'Docker auth'
+      - name: Docker auth
         run: |-
           gcloud auth configure-docker ${{ secrets.GAR_LOCATION }}-docker.pkg.dev
 
-      - name: 'Build and push container'
+      - name: Build and push container
         run: |-
-          docker build -t "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}" ./app
-          docker push "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}"
+          docker build -t ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }} ./app
+          docker push ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}
 
-      - name: 'Create Cloud Deploy release'
-        uses: 'google-github-actions/create-cloud-deploy-release@v0'
+      - name: Create Cloud Deploy release
+        uses: google-github-actions/create-cloud-deploy-release@v0
         with:
-          delivery_pipeline: '${{ secrets.APP }}'
-          name: '${{ secrets.RELEASE_NAME }}'
-          region: '${{ secrets.REGION }}'
-          skaffold_file: 'config/skaffold.yaml'
-          images: 'app=${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}'
+          delivery_pipeline: ${{ secrets.APP }}
+          name: ${{ secrets.RELEASE_NAME }}
+          region: ${{ secrets.REGION }}
+          skaffold_file: config/skaffold.yaml
+          images: app=${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}
