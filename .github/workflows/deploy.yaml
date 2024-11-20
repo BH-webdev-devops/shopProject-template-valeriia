@@ -47,7 +47,7 @@ jobs:
         with:
           tags: shop-project-valeriia:${{ github.sha }}
           platforms: linux/amd64
-          context: backend/.
+          context: ./backend
           push: true
 
       - name: Deploy to Cloud Run
