@@ -74,14 +74,15 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v4
         with:
-          tags: shop-project-valeriia
+          tags: shop-project-valeriia:latest
           platforms: linux/amd6
+          context: backend/.
 
-      - name: Create Cloud Deploy release
-        uses: google-github-actions/create-cloud-deploy-release@v0
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@main
         with:
-          delivery_pipeline: ${{ secrets.APP }}
-          name: ${{ secrets.RELEASE_NAME }}
-          region: ${{ secrets.REGION }}
-          skaffold_file: config/skaffold.yaml
-          images: app=${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.APP }}/${{ secrets.SERVICE }}:${{ github.sha }}
+          service: shop-project-valeriia
+          image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/shop-project-valeriia:latest
+          region: europe-west1
+          platform: managed
+          allow-unauthenticated: true
