@@ -45,7 +45,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v4
         with:
-          tags: shop-project-valeriia:latest
+          tags: shop-project-valeriia:${{ github.sha }}
           platforms: linux/amd64
           context: backend/.
           push: false
@@ -54,7 +54,7 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@main
         with:
           service: shop-project-valeriia
-          image: gcr.io/${{ secrets.PROJECT_ID }}/shop-project-valeriia:latest
+          image: gcr.io/${{ secrets.PROJECT_ID }}/shop-project-valeriia:${{ github.sha }}
           region: europe-west1
           platform: managed
           allow-unauthenticated: true
