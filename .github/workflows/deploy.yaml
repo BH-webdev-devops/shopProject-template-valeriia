@@ -57,9 +57,9 @@ jobs:
           service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
 
       - name: Set up Cloud SDK
-            uses: google-github-actions/setup-gcloud@v1
-            with:
-              project_id: ${{ secrets.PROJECT_ID }}
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
 
       - name: Docker auth
         run: |-
