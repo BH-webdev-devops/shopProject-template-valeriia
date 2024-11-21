@@ -32,7 +32,7 @@ const OrderDetailPage: React.FC = () => {
 
   const fetchOrder = async () => {
     try {
-      const res = await fetch(`${host}api/orders/` + id, {
+      const res = await fetch(`${host}/api/orders/` + id, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const OrderDetailPage: React.FC = () => {
   };
 
   const handleCancelOrder = async () => {
-    const res = await fetch(`${host}api/orders/` + id + "/status", {
+    const res = await fetch(`${host}/api/orders/` + id + "/status", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const OrderDetailPage: React.FC = () => {
   };
 
   const handleDeleteOrder = async () => {
-    const res = await fetch(`${host}api/orders/` + id, {
+    const res = await fetch(`${host}/api/orders/` + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

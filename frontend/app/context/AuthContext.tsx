@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Register function
   const register = async (form: FormData) => {
-    const res = await fetch(`${host}api/register`, {
+    const res = await fetch(`${host}/api/register`, {
       method: "POST",
       body: form,
     });
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Login function
   const login = async (email: string, password: string) => {
-    const res = await fetch(`${host}api/login`, {
+    const res = await fetch(`${host}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Sent email
   const sentEmail = async (from: string, subject: string, text: string) => {
-    const res = await fetch(`${host}api/send-email`, {
+    const res = await fetch(`${host}/api/send-email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ from, subject, text }),
@@ -155,7 +155,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const res = await fetch(`${host}api/profile`, {
+        const res = await fetch(`${host}/api/profile`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -179,7 +179,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`${host}api/products/`);
+      const response = await fetch(`${host}/api/products`);
       const data = await response.json();
       setProducts(data);
       console.log(data);
@@ -191,7 +191,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const getOrders = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`${host}api/users/orders`, {
+      const res = await fetch(`${host}/api/users/orders`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -210,7 +210,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const body = { userId: userId, items: cart };
     console.log("body");
     console.log(body);
-    const res = await fetch(`${host}api/orders/`, {
+    const res = await fetch(`${host}/api/orders/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
