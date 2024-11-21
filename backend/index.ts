@@ -18,7 +18,7 @@ app.use(cors());
 
 AppDataSource.initialize()
   .then(() => {
-    app.use(authRouter, userRouter, productRouter, orderRouter);
+    app.use("api/", authRouter, userRouter, productRouter, orderRouter);
     app.listen(port, () =>
       console.log(`Welcome to our server running on port ${port} 🟢`)
     );
