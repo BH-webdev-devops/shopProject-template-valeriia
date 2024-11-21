@@ -1,6 +1,9 @@
 FROM node:19 AS builder
 WORKDIR /app
 
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
 # Copy package files and install dependencies
 COPY package.json package-lock.json ./
 RUN npm install
