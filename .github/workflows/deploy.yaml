@@ -51,7 +51,7 @@ jobs:
             --build-arg DB_TYPE=${{ secrets.DB_TYPE }} \
             --build-arg PORT=${{ secrets.PORT }} \
             -t gcr.io/${{ secrets.PROJECT_ID }}/shop-project-valeriia:latest .
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/shop-project-valeriia:latest
+          docker push gcr.io/${{ secrets.PROJECT_ID }}/shop-project-valeriia:latest
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v1
