@@ -9,34 +9,55 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  deploy:
     runs-on: ubuntu-latest
-
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '19'
+          node-version: '16' 
 
       - name: Install dependencies
-        run: npm install --force
-        working-directory: ./frontend
-
-      - name: Run Lint
-        run: npm run lint
+        run: npm install
         working-directory: ./frontend
 
       - name: Build Next.js app
         run: npm run build
         working-directory: ./frontend
+          
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: 'access_token'
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Deploy to Vercel
-        working-directory: ./frontend
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: 'gcr.io'
+
+      - name: Build and Push Docker Image
         run: |
-          npx vercel deploy --prod --token $VERCEL_TOKEN --confirm
+          docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+            -t gcr.io/${{ secrets.PROJECT_ID }}/shop-frontend-valeriia:latest .
+          docker push gcr.io/${{ secrets.PROJECT_ID }}/shop-frontend-valeriia:latest
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          service: shop-frontend-valeriia
+          image: gcr.io/${{ secrets.PROJECT_ID}}/shop-frontend-valeriia
+          region: ${{ secrets.REGION }}
+          platform: managed
+          allow-authenticated: true
 
