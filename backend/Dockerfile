@@ -1,8 +1,8 @@
 # Use a Node.js base image
-FROM node:18
+FROM node:16
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /
 
 # Copy package files
 COPY package*.json ./
@@ -16,14 +16,11 @@ RUN npm install -g typescript
 # Copy the source code
 COPY . .
 
-# Build TypeScript code
-RUN npm run build
+# Compile TypeScript to JavaScript
+RUN tsc
 
 # Expose the port (if needed)
 EXPOSE 8080
-
-# Use environment variable for the port
-ENV PORT=8080
 
 # Start the application
 CMD ["node", "dist/index.js"]

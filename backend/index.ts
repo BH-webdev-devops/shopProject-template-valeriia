@@ -9,7 +9,7 @@ import "dotenv/config";
 import "reflect-metadata";
 
 const app: Application = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // Middleware for parsing JSON requests
 app.use(express.json());
