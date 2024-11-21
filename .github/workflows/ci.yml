@@ -49,8 +49,7 @@ jobs:
       - name: Build and Push Docker Image
         working-directory: ./frontend
         run: |
-          docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
-            -t gcr.io/${{ secrets.PROJECT_ID }}/shop-frontend-valeriia:latest .
+          docker build -t gcr.io/${{ secrets.PROJECT_ID }}/shop-frontend-valeriia:latest .
           docker push gcr.io/${{ secrets.PROJECT_ID }}/shop-frontend-valeriia:latest
 
       - name: Deploy to Cloud Run

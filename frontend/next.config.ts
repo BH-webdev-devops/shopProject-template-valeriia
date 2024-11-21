@@ -8,8 +8,9 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "shop-project-valeriia-413936355529.europe-west1.run.app",
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
         pathname: "/**",
       },
     ],

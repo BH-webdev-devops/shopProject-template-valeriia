@@ -23,6 +23,8 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
+const host = process.env.NEXT_PUBLIC_API_URL;
+console.log(host);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState(null);
@@ -31,7 +33,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<Item[]>([]);
 
-  const host = process.env.NEXT_PUBLIC_API_URL;
   // Check if there is a token in localStorage on app load
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("token", data.token);
       setUser(data.user);
     }
+    return data;
   };
 
   // Login function
@@ -198,7 +200,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const response = await res.json();
+      const response = res.status === 200 ? await res.json() : "";
       return { status: res.status, body: response };
     } catch (err: any) {
       console.log(err.message);
@@ -208,8 +210,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const createOrder = async (userId: number) => {
     const token = localStorage.getItem("token");
     const body = { userId: userId, items: cart };
-    console.log("body");
-    console.log(body);
     const res = await fetch(`${host}/api/orders/`, {
       method: "POST",
       headers: {
