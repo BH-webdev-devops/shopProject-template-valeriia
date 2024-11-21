@@ -9,8 +9,7 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname:
-          "https://shop-project-valeriia-413936355529.europe-west1.run.app",
+        hostname: "https://shopproject-template-valeriia.onrender.com",
         pathname: "/**",
       },
     ],
