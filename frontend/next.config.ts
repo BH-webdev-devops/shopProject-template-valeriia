@@ -8,8 +8,8 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "https://shopproject-template-valeriia.onrender.com",
+        protocol: "https",
+        hostname: "shop-project-valeriia-413936355529.europe-west1.run.app",
         pathname: "/**",
       },
     ],
