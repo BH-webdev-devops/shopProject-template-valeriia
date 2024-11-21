@@ -14,14 +14,7 @@ const port = process.env.PORT || 8080;
 // Middleware for parsing JSON requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "https://frontend-do3zautv5-lyaleras-projects.vercel.app", // Replace with your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow necessary methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
-    credentials: true, // If cookies or credentials are required
-  })
-);
+app.use(cors());
 
 AppDataSource.initialize()
   .then(() => {

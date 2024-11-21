@@ -46,7 +46,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const register = async (form: FormData) => {
     const res = await fetch(`${host}api/register`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: form,
     });
     const data = await res.json();
